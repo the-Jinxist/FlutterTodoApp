@@ -1,4 +1,4 @@
 import 'package:flutter/material.dart';
 import 'pages/todo_page.dart';
 
-void main() => runApp(TodoPage());
+void main() => runApp(TodoPageContainer());
