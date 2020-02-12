@@ -45,7 +45,8 @@ class _OnGoingPageState extends State<OnGoingPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: <Widget>[
-                    Image.asset("blank_canvas.svg", width: 70.0, height: 70.0,),
+                    SizedBox(height: 100.0,),
+                    Image.asset("assets/images/blank_canvas.svg", width: 70.0, height: 70.0,),
                     SizedBox(height: 20.0,),
                     Text("You neva start any todo yet...",
                       textAlign: TextAlign.center,
@@ -71,16 +72,17 @@ class _OnGoingPageState extends State<OnGoingPage> {
 
                   },
                 ),
-              secondaryBackground: Container(
+              background: Container(
                 decoration: BoxDecoration( border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(10.0)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(padding: EdgeInsets.all(8.0),
-                      child: Text("Completed",style: new TextStyle(fontFamily: "Monteserrat", fontSize: 17.0, color: Colors.amber)) ,
+                      child: Text("Completed",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber)) ,
                     ),
                     Expanded(
+
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,14 +96,14 @@ class _OnGoingPageState extends State<OnGoingPage> {
                   ],
                 ),
               ),
-              background: Container(
+              secondaryBackground: Container(
                 decoration: BoxDecoration( border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(10.0)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(padding: EdgeInsets.all(8.0),
-                      child: Text("Deleted",style: new TextStyle(fontFamily: "Monteserrat", fontSize: 17.0, color: Colors.amber)) ,
+                      child: Icon(Icons.delete_forever, color: Colors.amber, size: 20.0,),
                     ),
                     Expanded(
                       child: Row(
@@ -109,7 +111,7 @@ class _OnGoingPageState extends State<OnGoingPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(width: 10.0,),
-                          Icon(Icons.delete_forever, color: Colors.amber, size: 20.0,),
+                          Text("Deleted",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber)) ,
                           SizedBox(width: 10.0,),
                         ],
 
@@ -122,15 +124,15 @@ class _OnGoingPageState extends State<OnGoingPage> {
               onDismissed: (dismissDirection){
                 if(dismissDirection == DismissDirection.endToStart){
                   setState(() {
-                    listOfTodos.removeAt(position);
+                    listOfTodos.removeAt(position-1);
                   });
-                  databaseRepo.deleteTodo(listOfTodos[position]);
+                  databaseRepo.deleteTodo(listOfTodos[position-1]);
 
                 }else if(dismissDirection == DismissDirection.startToEnd){
                   setState(() {
-                    listOfTodos.removeAt(position);
+                    listOfTodos.removeAt(position-1);
                   });
-                  TodoModel todoModel = listOfTodos[position];
+                  TodoModel todoModel = listOfTodos[position-1];
                   todoModel.status = Constants.COMPLETED;
                   databaseRepo.updateTodo(todoModel);
                 }
