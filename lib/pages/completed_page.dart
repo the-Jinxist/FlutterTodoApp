@@ -33,66 +33,77 @@ class _CompletedPageState extends State<CompletedPage> {
               var listOfTodos = data.data;
               if (listOfTodos.isEmpty){
                 return Container(
-                  child: Column(
-                    children: <Widget>[
-                      Image.asset("blank_canvas.svg", width: 70.0, height: 70.0,),
-                      SizedBox(height: 20.0,),
-                      Text("You neva complete any todo yet...",
-                        textAlign: TextAlign.center,
-                        style: new TextStyle(fontFamily: "Montesserat", color: Colors.grey, fontSize: 17.0 ),
-                      ),
-                    ],
+                  child: Center(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 100,),
+                        Image.asset('assets/images/note.png', width: 200.0, height: 200.0, scale: 1, colorBlendMode: BlendMode.darken, fit: BoxFit.fill, ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("You've not completed any todos yet...",
+                            textAlign: TextAlign.center,
+                            style: new TextStyle(fontFamily: "Montesserat", color: Colors.grey, fontSize: 17.0 ),
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Swipe right to delete a todo.",
+                            textAlign: TextAlign.center,
+                            style: new TextStyle(fontFamily: "Montesserat", color: Colors.grey, fontSize: 13.0 ),
+                          ),
+                        ),
+                      ],
+                    ),
                   )
                 );
               }else{
                 return ListView.builder(
                   itemCount: listOfTodos.length,
-                  itemBuilder: (context, position) => Dismissible(key: Key("$position"), child: TodoView(todoModel: listOfTodos[position],
-                    onCompleteTodoTap: (){
+                  itemBuilder: (context, position) =>
+                    Dismissible(
+                        key: UniqueKey(),
+                        child: TodoView(todoModel: listOfTodos[position],),
+                        direction: DismissDirection.startToEnd,
+                        onDismissed: (dismissDirection){
+                            setState(() {
 
-                    },
-                    onRemoveTodoTap: (){
+                              TodoModel model = listOfTodos[position];
 
-                    },
-                    onTodoTap: (){
+                              listOfTodos.removeAt(position);
+                              databaseRepo.deleteTodo(model);
+                            });
 
-                    },
-                  ),
-                direction: DismissDirection.startToEnd,
-                onDismissed: (dismissDirection){
-                    setState(() {
-                      listOfTodos.removeAt(position);
-                    });
-                    databaseRepo.deleteTodo(listOfTodos[position]);
-                },
-                background: Container(
-                  decoration: BoxDecoration( border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(10.0)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(padding: EdgeInsets.all(8.0),
-                        child: Text("Deleted",style: new TextStyle(fontFamily: "Monteserrat", fontSize: 17.0, color: Colors.amber)) ,
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(width: 10.0,),
-                            Icon(Icons.delete_forever, color: Colors.amber, size: 20.0,),
-                            SizedBox(width: 10.0,),
-                           ],
-                          ),
-                        )
-                      ],
-                    ),),
+                        },
+                        background: Container(
+                          decoration: BoxDecoration( border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(10.0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(padding: EdgeInsets.all(8.0),
+                                child: Text("Delete!",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber)) ,
+                              ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    SizedBox(width: 10.0,),
+                                    Icon(Icons.delete_forever, color: Colors.amber, size: 20.0,),
+                                    SizedBox(width: 10.0,),
+                                   ],
+                                  ),
+                                )
+                              ],
+                            ),
+                        ),
                   )
                 );
               }
             }
 
-            return Center(child: CircularProgressIndicator(),);
+            return Center(child: CircularProgressIndicator(backgroundColor: Colors.amber,),);
           },
           future: databaseRepo.queryCompletedTodos(),
         ),

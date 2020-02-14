@@ -45,12 +45,22 @@ class _OnGoingPageState extends State<OnGoingPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: <Widget>[
-                    SizedBox(height: 100.0,),
-                    Image.asset("assets/images/blank_canvas.svg", width: 70.0, height: 70.0,),
-                    SizedBox(height: 20.0,),
-                    Text("You neva start any todo yet...",
-                      textAlign: TextAlign.center,
-                      style: new TextStyle(fontFamily: "Montesserat", color: Colors.grey, fontSize: 17.0 ),
+                    SizedBox(height: 100,),
+                    Image.asset('assets/images/note.png', width: 200.0, height: 200.0, scale: 1, colorBlendMode: BlendMode.darken, fit: BoxFit.fill,),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("You don't have any todos. Click the + button to create one.",
+                        textAlign: TextAlign.center,
+                        style: new TextStyle(fontFamily: "Montesserat", color: Colors.grey, fontSize: 17.0 ),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Swipe right to complete a todo, Swipe left to delete one.",
+                        textAlign: TextAlign.center,
+                        style: new TextStyle(fontFamily: "Montesserat", color: Colors.grey, fontSize: 13.0 ),
+                      ),
                     ),
                   ],
                 ),
@@ -61,17 +71,11 @@ class _OnGoingPageState extends State<OnGoingPage> {
             print("The list of data is ${listOfTodos[0].status}");
             return ListView.builder(
               itemCount: listOfTodos.length,
-              itemBuilder: (context, position) => Dismissible(key: Key("$position"), child: TodoView(todoModel: listOfTodos[position],
-                  onCompleteTodoTap: (){
-
-                  },
-                  onRemoveTodoTap: (){
-
-                  },
-                  onTodoTap: (){
-
-                  },
-                ),
+              itemBuilder: (context, position) =>
+                  Dismissible(
+                    key: UniqueKey(),
+                    child: TodoView(todoModel: listOfTodos[position],
+                  ),
               background: Container(
                 decoration: BoxDecoration( border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(10.0)),
                 child: Row(
@@ -79,7 +83,7 @@ class _OnGoingPageState extends State<OnGoingPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(padding: EdgeInsets.all(8.0),
-                      child: Text("Completed",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber)) ,
+                      child: Text("Complete!",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber)) ,
                     ),
                     Expanded(
 
@@ -111,7 +115,7 @@ class _OnGoingPageState extends State<OnGoingPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(width: 10.0,),
-                          Text("Deleted",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber)) ,
+                          Text("Delete!",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber)) ,
                           SizedBox(width: 10.0,),
                         ],
 
@@ -124,17 +128,27 @@ class _OnGoingPageState extends State<OnGoingPage> {
               onDismissed: (dismissDirection){
                 if(dismissDirection == DismissDirection.endToStart){
                   setState(() {
-                    listOfTodos.removeAt(position-1);
+
+                    TodoModel todoModel = listOfTodos[position];
+                    listOfTodos.removeAt(position);
+
+                    databaseRepo.deleteTodo(todoModel);
+
                   });
-                  databaseRepo.deleteTodo(listOfTodos[position-1]);
+
 
                 }else if(dismissDirection == DismissDirection.startToEnd){
                   setState(() {
-                    listOfTodos.removeAt(position-1);
+                    print(position);
+                    TodoModel todoModel = listOfTodos[position];
+                    listOfTodos.removeAt(position);
+
+                    todoModel.status = Constants.COMPLETED;
+                    databaseRepo.updateTodo(todoModel);
+
+
                   });
-                  TodoModel todoModel = listOfTodos[position-1];
-                  todoModel.status = Constants.COMPLETED;
-                  databaseRepo.updateTodo(todoModel);
+
                 }
               }
               )

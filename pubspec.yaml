@@ -48,6 +48,8 @@ flutter:
   assets:
     - assets/images/happy_image.jpg
     - assets/images/blank_canvas.svg
+    - assets/images/note.png
+    - assets/images/user.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

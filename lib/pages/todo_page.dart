@@ -99,12 +99,31 @@ class _TodoPageState extends State<TodoPage> {
                   SizedBox(height: 50.0),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
-                    child: Text("Your Todos", style: new TextStyle(
-                        fontFamily: "Montesserat",
-                        color: Colors.black,
-                        fontSize: 35.0,
-                        fontWeight: FontWeight.bold
-                    ) ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Your Todos", style: new TextStyle(
+                            fontFamily: "Montesserat",
+                            color: Colors.black,
+                            fontSize: 35.0,
+                            fontWeight: FontWeight.bold
+                          )
+                        ),
+                        Expanded(child: Align(
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                            onTap: (){
+
+                            },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 20.0, top: 5.0, bottom: 5.0),
+                                child: Image.asset('assets/images/user.png', width: 27.0, height: 27.0, scale: 1, colorBlendMode: BlendMode.darken, fit: BoxFit.fill, ),
+
+                              ) ),
+                        ))
+                      ],
+                    ),
                   ),
                   SizedBox(height: 15.0),
                   Row(

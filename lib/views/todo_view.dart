@@ -5,12 +5,10 @@ class TodoView extends StatefulWidget {
   @override
   _TodoViewState createState() => _TodoViewState();
 
-  final void onTodoTap;
-  final void onRemoveTodoTap;
-  final void onCompleteTodoTap;
+
   final TodoModel todoModel;
 
-  TodoView({this.onTodoTap, this.onRemoveTodoTap, this.onCompleteTodoTap, this.todoModel});
+  TodoView({this.todoModel});
 
 }
 
@@ -18,7 +16,6 @@ class _TodoViewState extends State<TodoView> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => widget.onTodoTap,
         child: Container(
           child: Card(
             elevation: 10.0,
