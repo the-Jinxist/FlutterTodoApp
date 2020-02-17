@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'completed_page.dart';
 import 'ongoing_page.dart';
 import 'add_todo_page.dart';
+import 'auth_page.dart';
 
 class TodoPageContainer extends StatelessWidget {
   @override
@@ -114,7 +115,7 @@ class _TodoPageState extends State<TodoPage> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: (){
-
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
                             },
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 20.0, top: 5.0, bottom: 5.0),

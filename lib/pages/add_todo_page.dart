@@ -75,10 +75,6 @@ class _AddTodoPageState extends State<AddTodoPage> {
                         color: Colors.white
                       )
                     ),
-                    errorText: "Plese add a valid todo title",
-                    errorStyle:  new TextStyle(
-                      fontFamily: "Montesserat", fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.red,
-                    ),
                     hintText: "Add Todo Title",
                     hintStyle:  new TextStyle(
                         fontFamily: "Montesserat", fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.grey,
@@ -123,10 +119,6 @@ class _AddTodoPageState extends State<AddTodoPage> {
                         borderSide: BorderSide(
                             color: Colors.white
                         )
-                    ),
-                    errorText: "Plese add a valid todo description",
-                    errorStyle:  new TextStyle(
-                      fontFamily: "Montesserat", fontSize: 19.0, color: Colors.red,
                     ),
                     hintText: "Add Todo Description",
                     hintStyle:  new TextStyle(
