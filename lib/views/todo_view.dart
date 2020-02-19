@@ -35,7 +35,7 @@ class _TodoViewState extends State<TodoView> {
                         ),
                       ),
                       SizedBox(height: 5,),
-                      Text(widget.todoModel.todoDesc != null ? widget.todoModel.todoDesc : "This description is null", textAlign: TextAlign.center, style: new TextStyle(
+                      Text(widget.todoModel.todoDesc != null ? widget.todoModel.todoDesc.substring(0, 39) + "..." : "This description is null", textAlign: TextAlign.center, style: new TextStyle(
                           fontFamily: "Montesserat", fontSize: 14.0
                       ),
                       ),

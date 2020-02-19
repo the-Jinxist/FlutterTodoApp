@@ -4,6 +4,7 @@ import 'package:todo_app/database/database_repo.dart';
 import 'package:todo_app/database/Constants.dart';
 import 'package:todo_app/database/todo_model.dart';
 import 'package:todo_app/views/todo_view.dart';
+import 'view_todo_page.dart';
 
 class OnGoingPage extends StatefulWidget {
   @override
@@ -74,8 +75,13 @@ class _OnGoingPageState extends State<OnGoingPage> {
               itemBuilder: (context, position) =>
                   Dismissible(
                     key: UniqueKey(),
-                    child: TodoView(todoModel: listOfTodos[position],
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTodoPage(model: listOfTodos[position],)));
+                      },
+                      child: TodoView(todoModel: listOfTodos[position],
                   ),
+                    ),
               background: Container(
                 decoration: BoxDecoration( border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(10.0)),
                 child: Row(

@@ -39,18 +39,33 @@ class _AddTodoPageState extends State<AddTodoPage> {
         backgroundColor: Colors.white,
         elevation: 0.0,
         actions: <Widget>[
-          GestureDetector(
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.done, color: Colors.amber, size: 20.0,),
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: GestureDetector(
+              onTap: (){
+                var state = formKey.currentState;
+                var validated = state.validate();
+
+                if(validated){
+
+                  TodoModel todoModel = new TodoModel(status: Constants.ON_GOING, todoTitle: todoTitle,
+                      todoDesc: todoDescription, timeInMillis: new DateTime.now().millisecondsSinceEpoch, id: new DateTime.now().millisecondsSinceEpoch);
+                  print("The todoModel is: $todoModel");
+                  if(todoModel.isComplete()){
+                    addTodo(todoModel);
+                  }
+
+                }
+              },
+              child: Icon(Icons.done, color: Colors.amber, size: 25.0,),
+            ),
           ),
         ],
         leading: GestureDetector(
           onTap: (){
             Navigator.pop(context);
           },
-          child: Icon(Icons.arrow_back, color: Colors.black, size: 20.0,),
+          child: Icon(Icons.arrow_back, color: Colors.black, size: 25.0,),
         ),
       ),
       body: Container(
@@ -67,7 +82,6 @@ class _AddTodoPageState extends State<AddTodoPage> {
                     todoTitle = value.trim();
                   },
                   maxLines: 1,
-                  maxLength: 25,
                   autocorrect: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -77,13 +91,13 @@ class _AddTodoPageState extends State<AddTodoPage> {
                     ),
                     hintText: "Add Todo Title",
                     hintStyle:  new TextStyle(
-                        fontFamily: "Montesserat", fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.grey,
+                        fontFamily: "Montesserat", fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.grey,
                     ),
                   ),
                   autofocus: true,
                   style: new TextStyle(
                     fontFamily: "Montesserat",
-                    fontSize: 20.0,
+                    fontSize: 17.0,
                     fontWeight: FontWeight.bold
                   ),
                   validator: (value){
@@ -110,8 +124,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                     }
 
                   },
-                  maxLines: 3,
-                  maxLength: 40,
+                  maxLines: 5,
                   autocorrect: true,
                   decoration: InputDecoration(
                     alignLabelWithHint: true,
@@ -122,47 +135,16 @@ class _AddTodoPageState extends State<AddTodoPage> {
                     ),
                     hintText: "Add Todo Description",
                     hintStyle:  new TextStyle(
-                        fontFamily: "Montesserat", fontSize: 19.0, color: Colors.grey,
+                        fontFamily: "Montesserat", fontSize: 15.0, color: Colors.grey,
                     ),
                   ),
                   autofocus: true,
                   style: new TextStyle(
                       fontFamily: "Montesserat",
-                      fontSize: 19.0
+                      fontSize: 15.0
                   ),
                 ),
                 SizedBox(height: 30.0,),
-                GestureDetector(
-                  onTap: (){
-                    var state = formKey.currentState;
-                    var validated = state.validate();
-
-                    if(validated){
-
-                      TodoModel todoModel = new TodoModel(status: Constants.ON_GOING, todoTitle: todoTitle,
-                          todoDesc: todoDescription, timeInMillis: new DateTime.now().millisecondsSinceEpoch, id: new DateTime.now().millisecondsSinceEpoch);
-                      print("The todoModel is: $todoModel");
-                      if(todoModel.isComplete()){
-                        addTodo(todoModel);
-                      }
-
-                    }
-                  },
-                  child: Card(
-                    elevation: 10.0,
-                    color: Colors.amber,
-                    child: Container(
-                      height: 50.0,
-                      width: double.maxFinite,
-                      child: Center(
-                        child: Text("Add Todo", style: new TextStyle(
-                            fontFamily: "Montesserat", fontWeight: FontWeight.bold, color: Colors.white, fontSize: 17.0
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           ),

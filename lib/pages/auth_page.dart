@@ -8,77 +8,67 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
 
+  final formKey = new GlobalKey<FormState>();
+
   String email;
   String password;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.white,
-        leading: GestureDetector(
-          onTap: (){
-            Navigator.pop(context);
-          },
-          child: Icon(Icons.arrow_back, color: Colors.black, size: 20.0,),
-        ),
-      ),
+      extendBody: true,
+      resizeToAvoidBottomInset: true,
+      //resizeToAvoidBottomPadding: true,
       body: Container(
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 50.0,),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CircleAvatar(radius: 50.0, child: Image.asset('assets/images/user.png', fit: BoxFit.fill,),),
-                ),
-              ),
-              Text("Create An Account", style: new TextStyle(color: Colors.black, fontSize: 24.0, fontFamily: Constants.MONTESSARAT_FAMILY, fontWeight: FontWeight.bold),),
-              SizedBox(height: 10.0,),
-              Text("Create an account to sync you todos across multiple deveices", style: new TextStyle(color: Colors.black, fontSize: 18.0, fontFamily: Constants.MONTESSARAT_FAMILY),),
-              SizedBox(height: 50.0,),
-              Form( child: Column(
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+          child: Scrollable(
+            viewportBuilder: (context, viewport) => Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 60.0,),
+                Image.asset('assets/images/user.png', fit: BoxFit.fill, width: 60.0, height: 60.0, ),
+                SizedBox(height: 7.0,),
+                Text("Create An Account", style: new TextStyle(color: Colors.black, fontSize: 20.0, fontFamily: Constants.MONTESSARAT_FAMILY, fontWeight: FontWeight.bold),),
+                Text("Create an account to sync you todos across multiple devices", style: new TextStyle(color: Colors.black, fontSize: 15.0, fontFamily: Constants.MONTESSARAT_FAMILY),),
+                SizedBox(height: 25.0,),
+                Form( key: formKey, child: Column(
                   children: <Widget>[
                     TextFormField(
                       validator: (value){
                         if(value.isEmpty){
                           return "Please input a valid email";
                         }else{
-                           email = value.trim();
+                          email = value.trim();
                           return null;
                         }
 
                       },
-                      maxLines: 3,
-                      maxLength: 40,
+                      maxLines: 1,
                       autocorrect: true,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.black,
+                              color: Colors.amber,
                             )
                         ),
 
                         hintText: "Your email address",
                         hintStyle:  new TextStyle(
-                          fontFamily: "Montesserat", fontSize: 19.0, color: Colors.grey,
+                          fontFamily: "Montesserat", fontSize: 15.0, color: Colors.grey,
                         ),
                       ),
                       keyboardType: TextInputType.emailAddress,
                       autofocus: true,
                       style: new TextStyle(
                           fontFamily: "Montesserat",
-                          fontSize: 19.0
+                          fontSize: 15.0
                       ),
                     ),
-                    SizedBox(height: 20.0,),
+                    SizedBox(height: 10.0,),
                     TextFormField(
                       validator: (value){
                         if(value.isEmpty){
@@ -89,19 +79,18 @@ class _AuthPageState extends State<AuthPage> {
                         }
 
                       },
-                      maxLines: 3,
-                      maxLength: 40,
+                      maxLines: 1,
                       autocorrect: true,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.black,
+                              color: Colors.amber,
                             )
                         ),
                         hintText: "Your password",
                         hintStyle:  new TextStyle(
-                          fontFamily: "Montesserat", fontSize: 19.0, color: Colors.grey,
+                          fontFamily: "Montesserat", fontSize: 15.0, color: Colors.grey,
                         ),
                       ),
                       obscureText: true,
@@ -109,19 +98,22 @@ class _AuthPageState extends State<AuthPage> {
                       autofocus: true,
                       style: new TextStyle(
                           fontFamily: "Montesserat",
-                          fontSize: 19.0
+                          fontSize: 15.0
                       ),
                     ),
-                    SizedBox(height: 50.0,),
+                    SizedBox(height: 30.0,),
                     GestureDetector(
+                      onTap: (){
+                        var state = formKey.currentState;
+                        state.validate();
+                      },
                       child: Container(
-                        height: 100.0,
+                        height: 50.0,
                         width: double.infinity,
-                        color: Colors.amber,
                         decoration: BoxDecoration(
+                          color:  Colors.amber,
                           borderRadius: BorderRadius.circular(7.0),
-                          boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 10.0, blurRadius: 10.0)],
-                          color: Colors.amber
+                          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 5.0)],
                         ),
                         child: Center(
                           child: Text("Log in", style: new TextStyle(color: Colors.white, fontFamily: Constants.MONTESSARAT_FAMILY, fontSize: 17.0, fontWeight: FontWeight.bold),),
@@ -130,8 +122,10 @@ class _AuthPageState extends State<AuthPage> {
                     )
                   ],
                 )
-              )
-            ],
+                )
+              ],
+            ),
+          axisDirection: AxisDirection.down,
           ),
         ),
       ),
