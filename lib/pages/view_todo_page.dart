@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/database/Constants.dart';
 import 'package:todo_app/database/todo_model.dart';
+import 'package:todo_app/database/database_repo.dart';
 
 class ViewTodoPage extends StatefulWidget {
   @override
@@ -13,6 +14,17 @@ class ViewTodoPage extends StatefulWidget {
 }
 
 class _ViewTodoPageState extends State<ViewTodoPage> {
+
+  final formKey = new GlobalKey<FormState>();
+  DatabaseRepo databaseRepo;
+
+  @override
+  void initState() {
+    super.initState();
+
+    databaseRepo = new DatabaseRepo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +37,71 @@ class _ViewTodoPageState extends State<ViewTodoPage> {
           GestureDetector(
               onTap: (){
 
+                showDialog(context: context, barrierDismissible: false, builder: (context) => AlertDialog(
+                  titlePadding: EdgeInsets.only(left: 22.0, right: 20.0, top: 20.0),
+                  title: Text("Delete Todo?"),
+                  titleTextStyle: new TextStyle(
+                    fontFamily: "Montesserat", fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.black,
+                  ),
+                  backgroundColor: Colors.white,
+                  elevation: 10.0,
+                  content: Text("Are you sure you wanna delete this todo? Are you really really sure?"),
+                  contentTextStyle: new TextStyle(
+                    fontFamily: "Montesserat", fontSize: 15.0, color: Colors.black,
+                  ),
+                  actions: <Widget>[
+                    FlatButton(onPressed: (){
+
+                      deleteTodo(widget.model);
+                      Navigator.of(context).pop();
+
+                    }, child: Text("Yea", style: new TextStyle(
+                      fontFamily: "Montesserat", fontSize: 15.0, color: Colors.white,
+                    ),), color: Colors.amber,),
+                    FlatButton(onPressed: (){
+                      Navigator.of(context).pop();
+                    }, child: Text("Nah", style: new TextStyle(
+                      fontFamily: "Montesserat", fontSize: 15.0, color: Colors.black,
+                    ),), color: Colors.white,)
+                  ],
+                ));
+
               },
               child: Icon(Icons.delete_forever, color: Colors.black, size: 25.0,)),
           SizedBox(width: 7.0,),
           GestureDetector(
               onTap: (){
+
+                showDialog(context: context, barrierDismissible: false, builder: (context) =>
+                    AlertDialog(
+                      titlePadding: EdgeInsets.only(left: 22.0, right: 20.0, top: 20.0),
+                      title: Text("Completed Todo?"),
+                      titleTextStyle: new TextStyle(
+                        fontFamily: "Montesserat", fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.black,
+                      ),
+                      backgroundColor: Colors.white,
+                      elevation: 10.0,
+                      content: Text("Are you sure you've completed this todo? Are you really really sure?"),
+                      contentTextStyle: new TextStyle(
+                        fontFamily: "Montesserat", fontSize: 15.0, color: Colors.grey,
+                      ),
+                      actions: <Widget>[
+                        FlatButton(onPressed: (){
+
+                          completeTodo(widget.model);
+                          Navigator.of(context).pop();
+
+                        }, child: Text("Yea", style: new TextStyle(
+                          fontFamily: "Montesserat", fontSize: 15.0, color: Colors.white,
+                        ),), color: Colors.amber,),
+                        FlatButton(onPressed: (){
+                          Navigator.of(context).pop();
+                        }, child: Text("Nah", style: new TextStyle(
+                          fontFamily: "Montesserat", fontSize: 15.0, color: Colors.amber,
+                        ),), color: Colors.white,)
+                      ],
+                    )
+                );
 
               },
               child: Icon(Icons.check, color: Colors.amber, size: 25.0,)),
@@ -43,7 +115,7 @@ class _ViewTodoPageState extends State<ViewTodoPage> {
       ),
       body: Container(
         padding: EdgeInsets.only(left: 10.0, right: 10.0),
-        child: Form(child: Column(
+        child: Form(key: formKey,child: Column(
             children: <Widget>[
               SizedBox(height: 10.0,),
               TextFormField(
@@ -54,6 +126,12 @@ class _ViewTodoPageState extends State<ViewTodoPage> {
                 maxLines: 1,
                 autocorrect: true,
                 decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Colors.amber,
+                          width: 3.0
+                      )
+                  ),
                   border: OutlineInputBorder(
                       borderSide: BorderSide(
                           color: Colors.white
@@ -75,7 +153,7 @@ class _ViewTodoPageState extends State<ViewTodoPage> {
                   if(value.isEmpty){
                     return "Your Todo's description cannot be empty";
                   }else{
-                    //todoTitle = value.trim();
+                    widget.model.todoTitle = value.trim();
                     return null;
                   }
 
@@ -91,14 +169,21 @@ class _ViewTodoPageState extends State<ViewTodoPage> {
                   if(value.isEmpty){
                     return "Your Todo's description cannot be empty";
                   }else{
-                    //todoDescription = value.trim();
+                    widget.model.todoDesc = value.trim();
                     return null;
                   }
 
                 },
                 maxLines: 5,
+
                 autocorrect: true,
                 decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.amber,
+                        width: 3.0
+                    )
+                  ),
                   alignLabelWithHint: true,
                   border: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -119,8 +204,15 @@ class _ViewTodoPageState extends State<ViewTodoPage> {
               SizedBox(height: 30.0,),
               GestureDetector(
                 onTap: (){
-                 // var state = formKey.currentState;
-                  //state.validate();
+                  var state = formKey.currentState;
+                  var validated = state.validate();
+
+                  if (validated){
+                    print("The values of the todo model are as follows: Title - ${widget.model.todoTitle}. Description - ${widget.model.todoDesc}."
+                        " Status - ${widget.model.status}. ID and TimeStamp - ${widget.model.id}, ${widget.model.timeInMillis}");
+                    updateTodo(widget.model);
+                  }
+
                 },
                 child: Container(
                   height: 50.0,
@@ -140,5 +232,21 @@ class _ViewTodoPageState extends State<ViewTodoPage> {
         ),
       ),
     );
+  }
+
+  Future<void> updateTodo(TodoModel model) async{
+    await databaseRepo.updateTodo(model);
+    Navigator.pop(context);
+  }
+
+  Future<void> completeTodo(TodoModel model) async{
+    model.status = Constants.COMPLETED;
+    await databaseRepo.updateTodo(model);
+    Navigator.pop(context);
+  }
+
+  Future<void> deleteTodo(TodoModel model) async{
+    await databaseRepo.deleteTodo(model);
+    Navigator.pop(context);
   }
 }

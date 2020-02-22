@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/database/Constants.dart';
 import 'package:todo_app/database/database_repo.dart';
 import 'package:todo_app/database/todo_model.dart';
 import 'package:todo_app/views/todo_view.dart';
@@ -64,8 +65,8 @@ class _CompletedPageState extends State<CompletedPage> {
                     Dismissible(
                         key: UniqueKey(),
                         child: TodoView(todoModel: listOfTodos[position],),
-                        direction: DismissDirection.startToEnd,
                         onDismissed: (dismissDirection){
+                          if(dismissDirection == DismissDirection.startToEnd){
                             setState(() {
 
                               TodoModel model = listOfTodos[position];
@@ -73,31 +74,65 @@ class _CompletedPageState extends State<CompletedPage> {
                               listOfTodos.removeAt(position);
                               databaseRepo.deleteTodo(model);
                             });
+                          }else if(dismissDirection == DismissDirection.endToStart){
+                            setState(() {
+
+                              TodoModel model = listOfTodos[position];
+                              model.status = Constants.ON_GOING;
+
+                              listOfTodos.removeAt(position);
+                              databaseRepo.updateTodo(model);
+                            });
+                          }
+
 
                         },
-                        background: Container(
-                          decoration: BoxDecoration( border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(10.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(padding: EdgeInsets.all(8.0),
-                                child: Text("Delete!",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber)) ,
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    SizedBox(width: 10.0,),
-                                    Icon(Icons.delete_forever, color: Colors.amber, size: 20.0,),
-                                    SizedBox(width: 10.0,),
-                                   ],
-                                  ),
-                                )
-                              ],
+                      secondaryBackground: Container(
+                        decoration: BoxDecoration( border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(10.0)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(padding: EdgeInsets.all(8.0),
+                              child: Icon(Icons.work, color: Colors.amber, size: 20.0,),
                             ),
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(width: 10.0,),
+                                  Text("Still Ongoing!",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber, fontWeight: FontWeight.bold)) ,
+                                  SizedBox(width: 10.0,),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
+                      ),
+                      background: Container(
+                        decoration: BoxDecoration( border: Border.all(color: Colors.amber), borderRadius: BorderRadius.circular(10.0)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(padding: EdgeInsets.all(8.0),
+                              child: Text("Delete!",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber, fontWeight: FontWeight.bold)) ,
+                            ),
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(width: 10.0,),
+                                  Icon(Icons.delete_forever, color: Colors.amber, size: 20.0,),
+                                  SizedBox(width: 10.0,),
+                                 ],
+                                ),
+                              )
+                            ],
+                          ),
+                      ),
                   )
                 );
               }

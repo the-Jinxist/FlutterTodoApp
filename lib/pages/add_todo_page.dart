@@ -84,6 +84,12 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   maxLines: 1,
                   autocorrect: true,
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.amber,
+                            width: 3.0
+                        )
+                    ),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Colors.white
@@ -127,6 +133,12 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   maxLines: 5,
                   autocorrect: true,
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.amber,
+                            width: 3.0
+                        )
+                    ),
                     alignLabelWithHint: true,
                     border: OutlineInputBorder(
                         borderSide: BorderSide(

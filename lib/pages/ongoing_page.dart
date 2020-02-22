@@ -46,7 +46,7 @@ class _OnGoingPageState extends State<OnGoingPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: <Widget>[
-                    SizedBox(height: 100,),
+                    SizedBox(height: 70,),
                     Image.asset('assets/images/note.png', width: 200.0, height: 200.0, scale: 1, colorBlendMode: BlendMode.darken, fit: BoxFit.fill,),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -58,7 +58,7 @@ class _OnGoingPageState extends State<OnGoingPage> {
                     SizedBox(height: 10,),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Swipe right to complete a todo, Swipe left to delete one.",
+                      child: Text("Swipe right to complete a todo, Swipe left to delete one. Tap for more options",
                         textAlign: TextAlign.center,
                         style: new TextStyle(fontFamily: "Montesserat", color: Colors.grey, fontSize: 13.0 ),
                       ),
@@ -89,7 +89,7 @@ class _OnGoingPageState extends State<OnGoingPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(padding: EdgeInsets.all(8.0),
-                      child: Text("Complete!",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber)) ,
+                      child: Text("Complete!",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber, fontWeight: FontWeight.bold)) ,
                     ),
                     Expanded(
 
@@ -121,7 +121,7 @@ class _OnGoingPageState extends State<OnGoingPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(width: 10.0,),
-                          Text("Delete!",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber)) ,
+                          Text("Delete!",style: new TextStyle(fontFamily: "Montesserat", fontSize: 17.0, color: Colors.amber, fontWeight: FontWeight.bold)) ,
                           SizedBox(width: 10.0,),
                         ],
 

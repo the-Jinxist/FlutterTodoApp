@@ -30,12 +30,12 @@ class _TodoViewState extends State<TodoView> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(widget.todoModel.todoTitle != null ? widget.todoModel.todoTitle : "This title is null", textAlign: TextAlign.center, style: new TextStyle(
+                      Text(generateTodoTitle(widget.todoModel.todoTitle), textAlign: TextAlign.center, style: new TextStyle(
                           fontFamily: "Montesserat", fontWeight: FontWeight.bold, fontSize: 17.0
                         ),
                       ),
                       SizedBox(height: 5,),
-                      Text(widget.todoModel.todoDesc != null ? widget.todoModel.todoDesc.substring(0, 39) + "..." : "This description is null", textAlign: TextAlign.center, style: new TextStyle(
+                      Text(generateTodoDesc(widget.todoModel.todoDesc), textAlign: TextAlign.center, style: new TextStyle(
                           fontFamily: "Montesserat", fontSize: 14.0
                       ),
                       ),
@@ -49,5 +49,29 @@ class _TodoViewState extends State<TodoView> {
           ),
         )
     );
+  }
+
+  String generateTodoDesc(String todoDesc){
+    if(todoDesc != null){
+      if (todoDesc.length > 40){
+        return todoDesc.substring(0, 40) + "...";
+      }else{
+        return todoDesc;
+      }
+    }else{
+      return "This description no dey o";
+    }
+  }
+
+  String generateTodoTitle(String todoTitle){
+    if(todoTitle != null){
+      if (todoTitle.length > 30){
+        return todoTitle.substring(0, 30) + "...";
+      }else{
+        return todoTitle;
+      }
+    }else{
+      return "This title no dey o";
+    }
   }
 }
