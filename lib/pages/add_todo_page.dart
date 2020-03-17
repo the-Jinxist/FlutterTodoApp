@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/provider/auth_viewmodel.dart';
 import '../database/todo_model.dart';
 import '../database/Constants.dart';
 import '../database/database_repo.dart';
@@ -28,6 +30,9 @@ class _AddTodoPageState extends State<AddTodoPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final AuthViewModel viewModel = Provider.of<AuthViewModel>(context);
+
     return Scaffold(
       resizeToAvoidBottomPadding: true,
       resizeToAvoidBottomInset: true,
@@ -45,7 +50,6 @@ class _AddTodoPageState extends State<AddTodoPage> {
               onTap: (){
                 var state = formKey.currentState;
                 var validated = state.validate();
-
                 if(validated){
 
                   TodoModel todoModel = new TodoModel(status: Constants.ON_GOING, todoTitle: todoTitle,

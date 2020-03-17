@@ -18,6 +18,8 @@ environment:
 
 dependencies:
   sqflite:
+  provider:
+  shared_preferences:
   path:
   intl: 0.15.7
 

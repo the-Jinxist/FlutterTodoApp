@@ -107,16 +107,18 @@ class _AuthPageState extends State<AuthPage> {
                         var state = formKey.currentState;
                         state.validate();
                       },
-                      child: Container(
-                        height: 50.0,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color:  Colors.amber,
-                          borderRadius: BorderRadius.circular(7.0),
-                          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 5.0)],
-                        ),
-                        child: Center(
-                          child: Text("Log in", style: new TextStyle(color: Colors.white, fontFamily: Constants.MONTESSARAT_FAMILY, fontSize: 17.0, fontWeight: FontWeight.bold),),
+                      child: Card(
+
+                        elevation: 5.0,
+                        child: Container(
+                          height: 50.0,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color:  Colors.amber,
+                          ),
+                          child: Center(
+                            child: Text("Log in", style: new TextStyle(color: Colors.white, fontFamily: Constants.MONTESSARAT_FAMILY, fontSize: 17.0, fontWeight: FontWeight.bold),),
+                          ),
                         ),
                       ),
                     )
